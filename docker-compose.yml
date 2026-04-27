@@ -1,0 +1,43 @@
+name: ${STACK_NAME:-wordsmith}
+
+services:
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  words:
+    build:
+      context: ./words
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/postgres
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    volumes:
+      - ./web/static:/app/static
+    ports:
+      - "${WEB_PORT:-80}:80"
+    depends_on:
+      - words
+    environment:
+      - WORDS_API=http://words:8080
+
+volumes:
+  db-data:
+

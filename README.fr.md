@@ -205,6 +205,26 @@ On souhaite maintenant modifier le fichier Compose afin de pouvoir éditer les f
 
 On souhaite maintenant pouvoir déployer l'application wordsmith en plusieurs exemplaires sur la même machine, avec un minimum d'effort. Idéalement, pour déployer une nouvelle instance de l'application, il faudrait créer un fichier de quelques lignes et lancer une commande `docker compose up`.
 
+Mise en place proposee : utiliser un fichier d'environnement par instance.
+
+1. Copier `stack-dev.env` vers un nouveau fichier, par exemple `stack-dev1.env`.
+2. Changer les variables :
+   - `STACK_NAME` : nom unique de la stack
+   - `WEB_PORT` : port expose pour le service `web`
+3. Lancer l'instance :
+
+```bash
+docker compose --env-file stack-dev.env up -d --build
+```
+
+Pour une deuxieme instance, creer `stack-dev2.env` avec un autre `STACK_NAME` et un autre `WEB_PORT`, puis lancer la meme commande.
+
+Pour arreter une instance, reutiliser le meme fichier :
+
+```bash
+docker compose --env-file stack-dev.env down
+```
+
 
 ## Exercice 7 : Kubernetes
 
