@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: web
+  name: web
+  namespace: wordsmith
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - image: docker.io/rekimete/wordsmith-web:latest
+        name: wordsmith-web
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}

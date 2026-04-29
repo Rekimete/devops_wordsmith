@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: db
+  name: db
+  namespace: wordsmith
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - image: docker.io/rekimete/wordsmith-db:latest
+        name: wordsmith-db
+        resources: {}
+status: {}

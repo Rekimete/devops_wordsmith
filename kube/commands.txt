@@ -1,0 +1,30 @@
+# Commandes pour créer les resources Kubernetes Wordsmith
+
+# === NAMESPACE ===
+kubectl create namespace wordsmith --dry-run=client -o yaml > namespace.yaml
+
+# Commandes pour créer les resources Kubernetes Wordsmith
+
+# === DB (PostgreSQL) ===
+kubectl create deployment db --image=docker.io/rekimete/wordsmith-db:latest -n wordsmith --dry-run=client -o yaml > db-deployment.yaml
+kubectl create service clusterip db --tcp=5432:5432 -n wordsmith --dry-run=client -o yaml > db-service.yaml
+
+# === WORDS (API) ===
+kubectl create deployment words --image=docker.io/rekimete/wordsmith-words:latest -n wordsmith --dry-run=client -o yaml > words-deployment.yaml
+kubectl create service clusterip words --tcp=8080:8080 -n wordsmith --dry-run=client -o yaml > words-service.yaml
+
+# === WEB (Nginx) ===
+kubectl create deployment web --image=docker.io/rekimete/wordsmith-web:latest --port=80 -n wordsmith --dry-run=client -o yaml > web-deployment.yaml
+kubectl create service nodeport web --tcp=80:80 -n wordsmith --dry-run=client -o yaml > web-service.yaml
+
+# === APPLY ===
+kubectl apply -f namespace.yaml
+kubectl apply -f db-deployment.yaml
+kubectl apply -f db-service.yaml
+kubectl apply -f words-deployment.yaml
+kubectl apply -f words-service.yaml
+kubectl apply -f web-deployment.yaml
+kubectl apply -f web-service.yaml
+
+# === PORT FORWARD (pour accès local) ===
+kubectl port-forward -n wordsmith svc/web 8080:80
