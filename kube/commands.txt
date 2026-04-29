@@ -28,3 +28,15 @@ kubectl apply -f web-service.yaml
 
 # === PORT FORWARD (pour accès local) ===
 kubectl port-forward -n wordsmith svc/web 8080:80
+
+# === DELETE ===
+kubectl delete -f web-service.yaml -n wordsmith
+kubectl delete -f web-deployment.yaml -n wordsmith
+kubectl delete -f words-service.yaml -n wordsmith
+kubectl delete -f words-deployment.yaml -n wordsmith
+kubectl delete -f db-service.yaml -n wordsmith
+kubectl delete -f db-deployment.yaml -n wordsmith
+kubectl delete namespace wordsmith
+
+# === DELETE CLUSTER (minikube) ===
+minikube delete
