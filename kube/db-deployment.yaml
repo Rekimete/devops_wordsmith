@@ -17,7 +17,7 @@ spec:
         app: db
     spec:
       containers:
-      - image: docker.io/rekimete/wordsmith-db:latest
+      - image: sevrius/wordsmith:db
         name: wordsmith-db
         resources: {}
 status: {}

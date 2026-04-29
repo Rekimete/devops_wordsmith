@@ -17,7 +17,7 @@ spec:
         app: web
     spec:
       containers:
-      - image: docker.io/rekimete/wordsmith-web:latest
+      - image: sevrius/wordsmith:web
         name: wordsmith-web
         ports:
         - containerPort: 80

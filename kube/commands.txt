@@ -15,7 +15,7 @@ kubectl create service clusterip words --tcp=8080:8080 -n wordsmith --dry-run=cl
 
 # === WEB (Nginx) ===
 kubectl create deployment web --image=docker.io/rekimete/wordsmith-web:latest --port=80 -n wordsmith --dry-run=client -o yaml > web-deployment.yaml
-kubectl create service nodeport web --tcp=80:80 -n wordsmith --dry-run=client -o yaml > web-service.yaml
+kubectl create service clusterip web --tcp=80:80 -n wordsmith --dry-run=client -o yaml > web-service.yaml
 
 # === APPLY ===
 kubectl apply -f namespace.yaml
@@ -25,18 +25,11 @@ kubectl apply -f words-deployment.yaml
 kubectl apply -f words-service.yaml
 kubectl apply -f web-deployment.yaml
 kubectl apply -f web-service.yaml
-
 # === PORT FORWARD (pour accès local) ===
 kubectl port-forward -n wordsmith svc/web 8080:80
 
 # === DELETE ===
-kubectl delete -f web-service.yaml -n wordsmith
-kubectl delete -f web-deployment.yaml -n wordsmith
-kubectl delete -f words-service.yaml -n wordsmith
-kubectl delete -f words-deployment.yaml -n wordsmith
-kubectl delete -f db-service.yaml -n wordsmith
-kubectl delete -f db-deployment.yaml -n wordsmith
-kubectl delete namespace wordsmith
+kubectl delete -f .
 
 # === DELETE CLUSTER (minikube) ===
 minikube delete

@@ -17,7 +17,7 @@ spec:
         app: words
     spec:
       containers:
-      - image: docker.io/rekimete/wordsmith-words:latest
+      - image: sevrius/wordsmith:words
         name: wordsmith-words
         resources: {}
 status: {}
